@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="keywords" content="html5,html 5,,html5 examples,indexeddb,indexed db,web sql,websql,offline,localstorage,local storage html5 offline">
+    <meta name="description" content="The Web SQL Database will work with latest version of Safari, Chrome and Opera.The Core Methods: There are following three co">
+    
+	<link rel="stylesheet" href="bs/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="custom.css" />
+	<script src="bs/js/jquery.min.js"></script>
+	<script src="html5.databse.js"></script>
+	
+	<link href="css/main.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+<div style="width: 900px;margin-left: auto;margin-right: auto;">
+                        <h3> Sales database </h3>
+                        
+						<p>When you upload a big csv file on a sever it will take some time to reflect all the resullsts<p>
+						
+						<!--fff--->
+						
+
+                        <!-- The Modal -->
+                        <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+                           <div class="modal-content">
+                              <span class="close">&times;</span>
+                              <p>Some text in the Modal..</p>
+                               <!-- Modal content form -->
+							   
+							    <form pname="add_form" id="add_form" method="post">
+                                       <input type="hidden" pname="edit_user_id" id="edit_user_id" />
+                                         
+										  <label class="control-label">order_date</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control"  id="order_date"  />
+                                              </div>                
+                                          </div>
+                                          
+                                          <label class="control-label">order_priority</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control"  id="order_priority"  />
+                                              </div>                
+                                          </div>
+
+
+                                          <label class="control-label">units_sold</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control" id="units_sold"  />
+                                              </div>                
+                                          </div>
+										  
+										   <label class="control-label">unit_price</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control" id="unit_price"  />
+                                              </div>                
+                                          </div>
+                                          
+                                          <label class="control-label">total_cost</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control" id="total_cost"  />
+                                              </div>                
+                                          </div>
+										  
+										    <label class="control-label">total_revenue</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control" id="total_revenue"  />
+                                              </div>                
+                                          </div>
+										  
+										    <label class="control-label">item_type</label>
+                                          <div style="margin-bottom: 50px;">
+                                              <div class="col-md-12 col-md-offset-0">
+                                                  <input type="text" class="form-control" id="item_type"  />
+                                              </div>                
+                                          </div>
+										  
+										  
+									
+                                          <div style="margin-bottom: 50px;">
+                                            <div class="col-md-12 col-md-offset-0">
+                                              <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Total" onclick="saveUserDetails();" id="total_record_div" >
+                                               <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Total</button>
+
+                                               <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Save" onclick="saveUserDetails();" id="save_record_div" >
+                                               <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Save</button>
+                                            
+											   <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Update" onclick="updateUserDetails();" id="update_record_div" >
+                                               <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Update</button>
+                                            
+											</div>
+                                          </div>  
+										  
+                                      </form>
+  
+  
+  
+                               <!-- Modal content form-->
+                            </div>
+
+                         </div>
+						<!--fff---->
+						
+						<hr/>
+
+                        <div id="browserCompatibilityWebSql">
+						
+						       <!--seach by date--->
+						<span>Startdate</span><input type="text" id="startdate" name="startdate" value="10/8/2013">
+		                <span>Enddate</span><input type="text" id="enddate" name="enddate" value="12/27/2015">
+						
+						<button type="submit" id="save_record_div" onclick="showMostProfitable();" class="btn btn-warning start">
+                          <span>Seach most profitable by date</span>
+				       
+					    </button>
+						
+						<div style="margin-left: auto;margin-right:auto;width: 60%; margin-top: 100px;">
+                                <table class="table table-bordered" id="show_post_profitable" >
+                                </table>  
+                        </div>
+						
+						<hr/>
+						<span>Total profit made</span> <input type="text" id="total_profit_made" name="total_profit_made" value="">
+
+                       
+						
+						
+						<!--seach by date end--->
+						<hr>                                                                    
+						
+						
+						
+                                  <div style="margin-left: auto;margin-right: auto;width: 100%;">
+								  
+                                      <!--old form start-->
+									  
+									 <!-- Trigger/Open The Modal -->
+                                    <button id="myBtn">Enter New sales</button>
+						
+						               <div class="btn btn-success ">
+
+					                   <input name="files[]" type="file" multiple="multiple" id="fileA"/>
+					                </div>
+				   
+                                    <button type="submit" id="save_record_div" onclick="startUpload();" class="btn btn-warning start">
+                                        <span>Start upload</span>
+				       
+					                </button>
+                                  
+								      <!--old form end-->
+								  </div>
+
+                                  <div style="margin-left: auto;margin-right:auto;width: 100%; margin-top: 100px;">
+                                       <table class="table table-bordered" id="show_edit_part" >
+                                       </table>  
+									   
+									   
+                                   <div class = "page_nation"><!-----------page nation------------>
+	
+	
+	                                <div class="containerx">
+                                      <div id="contentx">
+          
+                                         <div id="pagingDiv"></div>
+                                     </div>
+                                     </div>
+	                                </div><!-----------page nation------------>
+                                  </div>
+                         </div>
+</div>
+
+
+<div class = "page_nation"><!-----------page nation------------>	
+	<script>
+window.onload = function(){
+        
+		   countSells();
+		    console.log("loaded");
+  	
+ }
+
+
+//Start submision pagination
+function countSells()
+    {
+     
+        
+        var xhr = new XMLHttpRequest();
+	    const urlX='http://localhost/Pointofsales/PosApi/v1/Api.php?apicall=simplecountsalessubmision';
+        xhr.open('POST', urlX, true);
+    
+	    xhr.onload = function () {
+    // do something to response
+            console.log(this.responseText);
+            var  dictionary  = JSON.parse(xhr.responseText);
+			
+			for (item in dictionary) {
+              for (subItem in dictionary[item]) {
+      
+	   
+             //var id=dictionary[item][subItem].id;
+			 var total=dictionary[item][subItem].total;
+			 //var title=dictionary[item][subItem].title;
+
+			     paginationsales(total);
+
+	        }
+		 }
+			
+ 
+		 };
+        xhr.send(); 
+
+
+    }
+	
+	function paginationsales(total) {
+
+			var resultcount_val=total;
+			//var name_val=title;
+	        
+	        
+			var resultcountinteger = parseInt(resultcount_val, 10);
+	          console.log(resultcount_val,"Pagenationx");
+            
+			var result = Paging(1, 5, resultcountinteger, "myClass", "myDisableClass");
+            $("#pagingDiv").html(result)
+			
+	
+            $("#pagingDiv").on("click", "a", function () {
+               
+				
+				var pageNumber = $(this).attr("pn");
+				var intPageNumber = parseInt(pageNumber);
+				var skip_val=5*intPageNumber; 
+				
+				console.log(skip_val,"skiped");
+				findSkipSalesResults(skip_val);
+                
+				
+				var result = Paging($(this).attr("pn"), 5, resultcountinteger, "myClass", "myDisableClass");
+                $("#pagingDiv").html(result)
+            });
+
+            function Paging(PageNumber, PageSize, TotalRecords, ClassName, DisableClassName) {
+                var ReturnValue = "";
+
+                var TotalPages = Math.ceil(TotalRecords / PageSize);
+                if (+PageNumber > 1) {
+                    if (+PageNumber == 2)
+                        ReturnValue = ReturnValue + "<a pn='" + (+PageNumber - 1) + "' class='" + ClassName + "'>Pre</a>...;&nbsp;&nbsp;";
+                    else {
+                        ReturnValue = ReturnValue + "<a pn='";
+                        ReturnValue = ReturnValue + (+PageNumber - 1) + "' class='" + ClassName + "'>Pre</a>&nbsp;&nbsp;&nbsp;";
+                    }
+                }
+                else
+                    ReturnValue = ReturnValue + "<span class='" + DisableClassName + "'>Pre</span>&nbsp;&nbsp;&nbsp;";
+                if ((+PageNumber - 3) > 1)
+                    ReturnValue = ReturnValue + "<a pn='1' class='" + ClassName + "'>1</a>&nbsp;.....&nbsp;|&nbsp;";
+                for (var i = +PageNumber - 3; i <= +PageNumber; i++)
+                    if (i >= 1) {
+                        if (+PageNumber != i) {
+                            ReturnValue = ReturnValue + "<a pn='";
+                            ReturnValue = ReturnValue + i + "' class='" + ClassName + "'>" + i + "</a>&nbsp;|&nbsp;";
+                        }
+                        else {
+                            ReturnValue = ReturnValue + "<span style='font-weight:bold;'>" + i + "</span>&nbsp;|&nbsp;";
+                        }
+                    }
+                for (var i = +PageNumber + 1; i <= +PageNumber + 3; i++)
+                    if (i <= TotalPages) {
+                        if (+PageNumber != i) {
+                            ReturnValue = ReturnValue + "<a pn='";
+                            ReturnValue = ReturnValue + i + "' class='" + ClassName + "'>" + i + "</a>&nbsp;|&nbsp;";
+                        }
+                        else {
+                            ReturnValue = ReturnValue + "<span style='font-weight:bold;'>" + i + "</span>&nbsp;|&nbsp;";
+                        }
+                    }
+                if ((+PageNumber + 3) < TotalPages) {
+                    ReturnValue = ReturnValue + ".....&nbsp;<a pn='";
+                    ReturnValue = ReturnValue + TotalPages + "' class='" + ClassName + "'>" + TotalPages + "</a>";
+                }
+                if (+PageNumber < TotalPages) {
+                    ReturnValue = ReturnValue + "&nbsp;&nbsp;&nbsp;<a pn='";
+                    ReturnValue = ReturnValue + (+PageNumber + 1) + "' class='" + ClassName + "'>Nxt</a>";
+                }
+                else
+                    ReturnValue = ReturnValue + "&nbsp;&nbsp;&nbsp;<span class='" + DisableClassName + "'>Nxt</span>";
+
+                return (ReturnValue);
+            }
+
+        //});#0757813988 katongole
+		}
+
+
+
+
+function findSkipSalesResults(skip_val){
+	   
+
+	   var data = new FormData();
+           data.append('skip',skip_val);
+
+		const url='http://localhost/Pointofsales/PosApi/v1/Api.php?apicall=paginatesells';
+		
+		var xmlhttp;
+            xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        
+		  
+		 var  dictionary = JSON.parse(xmlhttp.responseText);
+		
+		  console.log(dictionary);
+		  if (dictionary){
+              	 
+            console.log(dictionary,"alldata results");				 
+              showPagenatedSalls(dictionary);
+		   }else{
+                //showError
+               }
+		  
+        }
+      }
+      xmlhttp.open("POST", url, true);
+      xmlhttp.send(data);
+				
+}
+
+
+
+</script>
+
+    <script>
+        
+		
+function findSkipedSellsResults(skip_val){
+	   
+
+		var data = new FormData();
+            data.append('skip',skip_val);
+
+		const url='http://localhost/Pointofsales/PosApi/v1/Api.php?apicall=paginatesells';
+		
+		var xmlhttp;
+            xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        
+		  
+		 var  dictionary = JSON.parse(xmlhttp.responseText);
+		
+		  console.log(dictionary);
+		  if (dictionary){
+              				
+              showPagenatedSalls(dictionary);
+		   }else{
+                //showError
+               }
+		  
+        }
+      }
+      xmlhttp.open("POST", url, true);
+      xmlhttp.send(data);
+				
+}
+
+function showPagenatedSalls(dictionary){ 
+
+		  //console.log(dictionary);
+          if (dictionary){
+			 
+           var show_data_append = '';
+                  var header_ui = '<thead>'   	 
+                                 +'<tr style="border: 1px solid black;">'     
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;" >Order date</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;" >Order priority</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;"  >Units sold</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;"  >Unit price</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;"  >Total cost</th>'
+								 +'<th style="padding:8px;border: 1px solid black;width:30%;"  >Total revenue</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;"  >Item type</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:40%;" >Action&nbsp;&nbsp;<button type="button" class="btn btn-danger" onclick="dropTables();" style="cursor:pointer;"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;</button></th>'
+                                 +'</tr></thead>';     
+                                 
+								 
+		  
+		  //console.log(dictionary);
+	  for (item in dictionary) {
+           for (subItem in dictionary[item]) {
+      
+			  
+			  var id_var=dictionary[item][subItem].id;
+			  var order_date_var=dictionary[item][subItem].order_date;
+			  var order_priority_var=dictionary[item][subItem].order_priority;
+			  var units_sold_var=dictionary[item][subItem].units_sold;
+			  var unit_price_var=dictionary[item][subItem].unit_price;
+			  var total_cost_var=dictionary[item][subItem].total_cost;
+			  var total_revenue_var=dictionary[item][subItem].total_revenue;
+			  var item_type_var=dictionary[item][subItem].item_type;
+			  
+
+			 if(typeof dictionary[item][subItem].id !== "undefined"){
+				 
+			
+				//$.parseJSON();
+            show_data_append += '<tr style="border: 1px solid black;" >' 
+                            + '<td style="padding:8px;border: 1px solid black;" >' +order_date_var+'</td>' 
+                            + '<td style="padding:8px;border: 1px solid black;" >' +order_priority_var+'</td>' 
+                            + '<td style="padding:8px;border: 1px solid black;" >' +units_sold_var+'</td>' 
+                            + '<td style="padding:8px;border: 1px solid black;" >' +unit_price_var+'</td>'
+                            + '<td style="padding:8px;border: 1px solid black;" >' +total_cost_var+'</td>'
+							+ '<td style="padding:8px;border: 1px solid black;" >' +total_revenue_var+'</td>'
+                            + '<td style="padding:8px;border: 1px solid black;" >' +item_type_var+'</td>'
+                            
+							+ '<td style="padding:8px;border: 1px solid black;" >'
+
+                            + '<button type="button" class="btn btn-danger" onclick="deleteUserRecord('+id_var+');"  id="save_record_div" style="cursor:pointer;"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Delete</button>'
+                            + '&nbsp;&nbsp;<button type="button" class="btn btn-info" onclick="editUserRecord('+id_var+ ');"  id="edit_record_div" style="cursor:pointer;"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit</button>'
+                            + '</tr>';
+							
+			 }
+
+	        }
+			
+		 }
+          
+		           var footer_ui = '</table>';
+                   var complete_ui = header_ui+show_data_append+footer_ui;
+                   $("#save_record_div").show();
+                   $("#update_record_div").hide();
+                   $("#show_edit_part").html(complete_ui);
+
+		   }else{
+                //showError
+               }
+
+
+    }
+		
+		
+		//
+    </script>
+
+  
+  </div><!-----------page nation------------>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+                if (!window.openDatabase) 
+                {
+                      var browserCompatibilityWebSqlUI = '<div class="alert alert-warning">'
+                                                              +'<strong>Warning !</strong> Your Browser does not support HTML5 offline Database (WebSql) <br/> To see the demo please open in latest version of Safari, Chrome and Opera.'
+                                                          +'</div>';
+                       
+                     $("#browserCompatibilityWebSql").html(browserCompatibilityWebSqlUI);
+                }
+            </script>
+            
+
+
+<script>
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+var btn2 = document.getElementById("edit_record_div");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+//btn2.onclick = function() {
+  //modal.style.display = "block";
+//}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+      
+  document.getElementById("order_date").value="";
+  document.getElementById("order_priority").value="";
+  document.getElementById("units_sold").value="";
+  document.getElementById("unit_price").value="";
+  document.getElementById("total_cost").value="";
+  document.getElementById("total_revenue").value="";
+  document.getElementById("item_type").value="";
+
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+</script>
+
+
+<script>
+//upload file
+
+    function startUpload(){
+    
+
+       
+        var files = document.getElementById("fileA").files;
+
+
+		 for (let i = 0; i < files.length; i++) {
+           
+		   let files_val = files[i];
+		   var fileName =files[i].name;
+           var name2 = String(fileName).slice(0, -3) + '.';
+
+			   pdfupload(files_val);
+
+
+		}
+		
+		
+		
+		function pdfupload(files_val){
+              
+                 var fd = new FormData();
+                     fd.append("afile", files_val);
+	
+                 var xhr = new XMLHttpRequest();
+  
+                     xhr.open('POST', 'http://localhost/Pointofsales/PosApi/v1/handle_file_upload.php', true);
+                     var selectHTMLbar0='';
+                     xhr.upload.onprogress = function(e) {
+                        if (e.lengthComputable) {
+                        var percentComplete = (e.loaded / e.total) * 100;
+                       console.log(percentComplete + '% uploaded');
+					   
+					   alert(percentComplete + '% uploaded but the process of inserting all records in in db will take some time');
+		               location.reload();
+				}
+                          };
+                     xhr.onload = function() {
+                     if (this.status == 200) {
+                     //var resp = JSON.parse(this.response);
+                        //console.log('Server got:', resp);
+     
+                           };
+                        };
+                   xhr.send(fd);
+			
+			
+			}
+
+    }
+
+</script>
+
+
+<script>
+//howTotalProfits
+function showTotalProfits(){ 
+	     
+		 var start = $.trim($("#startdate").val());
+		 var end = $.trim($("#enddate").val());
+
+
+		 console.log(start,"order_date_start");
+		 console.log(end,"order_date_start");
+
+	 var data = new FormData();
+         data.append('order_date_start',start);
+		 data.append('order_date_end',end);
+             
+        
+        var xhr = new XMLHttpRequest();
+	    const urlX='http://localhost/Pointofsales/PosApi/v1/Api.php?apicall=getprofite';
+        xhr.open('POST', urlX, true);
+    
+	    xhr.onload = function () {
+    
+            //console.log(this.responseText);
+        var  dictionary  = JSON.parse(xhr.responseText);
+		//console.log(dictionary);
+		
+		
+		if (dictionary){
+		
+		 
+			
+			for (item in dictionary) {
+              for (subItem in dictionary[item]) {
+
+			      
+			      var profit=dictionary[item][subItem].profit;
+				  
+				  if(typeof dictionary[item][subItem].profit !== "undefined"){
+				  
+				    document.getElementById("total_profit_made").value=profit;
+				  
+				   
+			      }
+
+	        }
+		 }
+		 
+		
+		 
+		 
+		}	
+ 
+	 };
+     xhr.send(data); 
+
+ 
+          
+    }
+	
+	//showMostProfitable
+function showMostProfitable(){ 
+	     
+		 var start = $.trim($("#startdate").val());
+		 var end = $.trim($("#enddate").val());
+
+
+		 console.log(start,"order_date_start");
+		 console.log(end,"order_date_start");
+
+	 var data = new FormData();
+         data.append('order_date_start',start);
+		 data.append('order_date_end',end);
+             
+        
+        var xhr = new XMLHttpRequest();
+	    const urlX='http://localhost/Pointofsales/PosApi/v1/Api.php?apicall=getprofitable';
+        xhr.open('POST', urlX, true);
+    
+	    xhr.onload = function () {
+    
+            //console.log(this.responseText);
+        var  dictionary  = JSON.parse(xhr.responseText);
+		console.log(dictionary);
+		
+		
+		if (dictionary){
+		
+		     var show_data_append = '';
+                  var header_ui = '<thead>'   	 
+                                 +'<tr style="border: 1px solid black;">'     
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;" >Item type</th>'
+                                 +'<th style="padding:8px;border: 1px solid black;width:30%;" >Profit</th>'
+                    
+								 +'</tr></thead>'; 
+			
+			for (item in dictionary) {
+              for (subItem in dictionary[item]) {
+
+			      var item_type=dictionary[item][subItem].item_type;
+			      var profit=dictionary[item][subItem].profit;
+				  
+				  if(typeof dictionary[item][subItem].item_type !== "undefined"){
+				  
+				  show_data_append += '<tr style="border: 1px solid black;" >' 
+                            + '<td style="padding:8px;border: 1px solid black;" >' +item_type+'</td>' 
+                            + '<td style="padding:8px;border: 1px solid black;" >' +profit+'</td>' 
+  
+							+ '</tr>';
+				  
+				   
+			      }
+
+	        }
+		 }
+		 
+		 var footer_ui = '</table>';
+                   var complete_ui = header_ui+show_data_append+footer_ui;
+                  
+                   $("#show_post_profitable").html(complete_ui);
+		 
+		 
+		}	
+ 
+	 };
+     xhr.send(data); 
+
+ 
+      showTotalProfits();    
+    }
+	
+</script>
+
+
+
+
+
+
+
+</body>
+</html>
